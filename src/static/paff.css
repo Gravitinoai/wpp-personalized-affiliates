@@ -1,0 +1,13 @@
+#debug-panel {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.highlight {
+    background-color: lime;
+}

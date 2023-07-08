@@ -15,7 +15,14 @@ class PartnersSetting {
         <tr>
             <th colspan="2">
                 <h2>Affiliate Partners</h2>
-                <p>Describe the partner and add the affiliate link to the text.</p>
+                <p>Describe the partner and add the affiliate link to the text. For example:</p>
+                <div class="example-card">
+                    Brilliant.org is an American for-profit company and associated community that features problems and courses in mathematics, physics, quantitative finance, and computer science. It operates via a freemium business model.
+                    <br><br>
+                    The best way to learn math and computer science. Guided interactive problem solving that's effective and fun. Master concepts in 15 minutes a day.
+                    <br><br>
+                    https://brilliant.org/?referral=your-referral-code
+                </div>
             </th>
         </tr>
         <?php
@@ -46,6 +53,7 @@ class PartnersSetting {
 
         // Add jQuery script
         $this->add_script();
+        $this->add_styles();
     }
 
     function add_script() {
@@ -58,6 +66,20 @@ class PartnersSetting {
             });
         });
         </script>
+        <?php
+    }
+
+    function add_styles() {
+        ?>
+        <style type="text/css">
+            .example-card {
+                background-color: #f9f9f9;
+                border: 1px solid #ccc;
+                padding: 10px;
+                margin-bottom: 10px;
+                width: 500px; /* Adjust the width as needed */
+            }
+        </style>
         <?php
     }
 }
