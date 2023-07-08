@@ -1,1 +1,1 @@
-# wpp-personalized-affiliates
+# adaptive-content-wpp
