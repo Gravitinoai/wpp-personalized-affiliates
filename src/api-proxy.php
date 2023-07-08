@@ -5,15 +5,23 @@
 if (!defined('ABSPATH')) {
     exit; 
 }
-// require __DIR__ . '/vendor/autoload.php';
-// $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-// $dotenv->load();
 
 // Add a new AJAX action
 add_action('wp_ajax_proxy_request', 'handle_proxy_request');
 add_action('wp_ajax_nopriv_proxy_request', 'handle_proxy_request');
 
 function handle_proxy_request() {
+    // ==================== LIST OF AFFILIATES ====================
+    $partners = get_option('paff_partners');
+    $partners_string = "";
+    foreach ($partners as $index => $partner) {
+        if ($partner!=""){
+            $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
+        }
+    }
+    error_log('partners: ' . print_r($partners_string, true));
+
+    // ==================== GET THE REQUEST DATA ====================
     // Check if the session data is set
     if (!isset($_POST['prompt'])) {
         echo json_encode(array('error' => 'No session data provided.'));
@@ -24,12 +32,11 @@ function handle_proxy_request() {
     $client_data = $_POST['prompt'];
 
     // Your private API key
-    // $api_key = getenv('OPENAI_API_KEY');
-    // if (!$api_key) {
-    //     echo json_encode(array('error' => 'No API key provided.'));
-    //     wp_die();
-    // }
-    $api_key = get_option('openai_api_key');
+    $api_key = get_option('paff_google_api_key');
+    if (!$api_key) {
+        echo json_encode(array('error' => 'No API key provided.'));
+        wp_die();
+    }
 
     // The API URL
     $api_url = 'https://api.openai.com/v1/chat/completions';
