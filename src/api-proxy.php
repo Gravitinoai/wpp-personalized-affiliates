@@ -15,7 +15,9 @@ function handle_proxy_request() {
     $partners = get_option('paff_partners');
     $partners_string = "";
     foreach ($partners as $index => $partner) {
-        $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
+        if ($partner!=""){
+            $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
+        }
     }
     error_log('partners: ' . print_r($partners_string, true));
 
