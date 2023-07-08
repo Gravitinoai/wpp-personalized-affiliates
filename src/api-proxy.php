@@ -5,6 +5,7 @@
 if (!defined('ABSPATH')) {
     exit; 
 }
+
 // Add a new AJAX action
 add_action('wp_ajax_proxy_request', 'handle_proxy_request');
 add_action('wp_ajax_nopriv_proxy_request', 'handle_proxy_request');
@@ -19,7 +20,12 @@ function handle_proxy_request() {
     // Get the session data from the client request
     $client_data = $_POST['prompt'];
 
+    // Your private API key
     $api_key = get_option('paff_google_api_key');
+    if (!$api_key) {
+        echo json_encode(array('error' => 'No API key provided.'));
+        wp_die();
+    }
 
     // The API URL
     $api_url = 'https://api.openai.com/v1/chat/completions';

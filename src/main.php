@@ -55,17 +55,16 @@ function custom_category_logger() {
 
     // Pass data to the logger script.
     wp_localize_script('model_prompting', 'my_ajax_object', ['ajax_url' => admin_url( 'admin-ajax.php' )]);
-    wp_localize_script('main-js', 'postCategory', $category_name);
-    wp_localize_script('main-js', 'blockData', $block_data);
-    wp_localize_script('main-js', 'postID', $post_id);
-    wp_localize_script('main-js', 'cat_views', $_SESSION['category_views']);
+    wp_localize_script('main-js', 'postCategory', ['category_name' => $category_name]);
+    wp_localize_script('main-js', 'blockData', ['blocks' => $block_data]);
+    wp_localize_script('main-js', 'postID', ['post_id' => $post_id]);
+    wp_localize_script('main-js', 'cat_views', ['views' => $_SESSION['category_views']]);
 }
 
 // Define session end handlers.
 function end_session() {
     session_write_close();
 }
-
 
 // Register WordPress actions.
 add_action('wp_logout', 'end_session');
