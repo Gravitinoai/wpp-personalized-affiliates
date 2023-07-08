@@ -39,10 +39,6 @@ class PAFF_Plugin {
     }
 
     public function process_post() {
-        // ==================== DEBUG PANEL ====================
-        // ==================== DEBUG PANEL ====================
-        $this->debug_panel->gen_debug_panel();
-
         // ==================== SESSION ====================
         // ==================== SESSION ====================
         $post_id = get_the_ID();
@@ -61,15 +57,6 @@ class PAFF_Plugin {
     
         // Extract relevant data from the post.
         $category_name = $categories[0]->cat_name;
-        $post = get_post($post_id);
-        $blocks = parse_blocks($post->post_content);
-        $block_data = array_map(function($block) {
-            return [
-                'type' => $block['blockName'],
-                'content' => $block['innerHTML'],
-                'id' => md5($block['innerHTML']),  // Use a hash of the content as the unique identifier
-            ];
-        }, $blocks);
     
         // Enqueue the necessary JavaScript files.
         wp_enqueue_script('taxonomy', plugins_url('/js/taxonomy.js', __FILE__), [], '1.0', true);
@@ -80,9 +67,13 @@ class PAFF_Plugin {
         // Pass data to the logger script.
         wp_localize_script('model_prompting', 'my_ajax_object', ['ajax_url' => admin_url('admin-ajax.php')]);
         wp_localize_script('main-js', 'postCategory', ['category_name' => $category_name]);
-        wp_localize_script('main-js', 'blockData', ['blocks' => $block_data]);
         wp_localize_script('main-js', 'postID', ['post_id' => $post_id]);
         wp_localize_script('main-js', 'cat_views', ['views' => $_SESSION['category_views']]);
+
+
+        // ==================== DEBUG PANEL ====================
+        // ==================== DEBUG PANEL ====================
+        $this->debug_panel->gen_debug_panel('main-js');
     }
 
     public function end_session() {

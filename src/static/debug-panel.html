@@ -1,3 +1,22 @@
 <div id="debug-panel">
-    <button id="highlight-paff">Highlight PAFF</button>
+    <!-- header: "Debug panel" in the center and bold -->
+    <div style="text-align: center;">
+        <h1>Debug panel</h1>
+        <p>(Can be disabled in plugin settings)</p>
+    </div>
+    <h2>Personal interests:</h2>
+    <p id="personal-interests"></p>
+    <h2>Toggling:</h2>
+    <!-- <button id="highlight-paff">Highlight PAFF paragraph</button>
+    <button id="toggle-personalization">Toggle PAFF</button> -->
+    <!-- add check boxes instead -->
+    <div>
+        <!-- Highlight is off by default -->
+        <input type="checkbox" id="highlight-paff">
+        <label for="highlight-paff">Highlight section</label>
+    </div>
+    <div>
+        <input type="checkbox" id="toggle-personalization" checked>
+        <label for="toggle-personalization">Personalized</label>
+    </div>  
 </div>
