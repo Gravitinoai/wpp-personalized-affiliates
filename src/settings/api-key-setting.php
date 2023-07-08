@@ -11,7 +11,7 @@ class ApiKeySetting {
         ?>
         <tr valign="top">
             <th scope="row">API Key</th>
-            <td><input type="text" name="paff_api_key" value="<?php echo esc_attr(get_option($this->setting_name)); ?>" /></td>
+            <td><input type="text" cols="75" name="paff_api_key" value="<?php echo esc_attr(get_option($this->setting_name)); ?>" /></td>
         </tr>
         <?php
     }

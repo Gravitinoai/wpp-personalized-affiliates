@@ -2,6 +2,7 @@
 
 include_once plugin_dir_path( __FILE__ ) . 'settings/api-key-setting.php';
 include_once plugin_dir_path( __FILE__ ) . 'settings/display-debug-setting.php';
+include_once plugin_dir_path( __FILE__ ) . 'settings/affiliate-partner-setting.php';
 
 class SettingsPage {
     private $settings = [];
@@ -11,6 +12,7 @@ class SettingsPage {
     function __construct() {
         $this->settings[] = new ApiKeySetting();
         $this->settings[] = new DisplayDebugSetting();
+        $this->settings[] = new PartnersSetting();
 
         add_action('admin_init', [$this, 'register_settings']);
         add_action('admin_menu', [$this, 'add_settings_page']);
