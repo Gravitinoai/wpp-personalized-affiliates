@@ -2,6 +2,8 @@
 console.log('debug-panel.js loaded');
 
 jQuery(document).ready(function($) {
+    textProcessor.togglePersonalization($('#toggle-personalization').is(':checked'));
+
     // Event handler for 'highlight-paff' checkbox
     $('#highlight-paff').change(function() {
         if (this.checked) {
@@ -13,7 +15,7 @@ jQuery(document).ready(function($) {
 
     // Event handler for 'toggle-personalization' checkbox
     $('#toggle-personalization').change(function() {
-        textProcessor.togglePersonalization(); // Call the method to update the view
+        textProcessor.togglePersonalization(this.checked);
     });
 });
 

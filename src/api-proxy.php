@@ -11,6 +11,15 @@ add_action('wp_ajax_proxy_request', 'handle_proxy_request');
 add_action('wp_ajax_nopriv_proxy_request', 'handle_proxy_request');
 
 function handle_proxy_request() {
+    // ==================== LIST OF AFFILIATES ====================
+    $partners = get_option('paff_partners');
+    $partners_string = "";
+    foreach ($partners as $index => $partner) {
+        $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
+    }
+    error_log('partners: ' . print_r($partners_string, true));
+
+    // ==================== GET THE REQUEST DATA ====================
     // Check if the session data is set
     if (!isset($_POST['prompt'])) {
         echo json_encode(array('error' => 'No session data provided.'));

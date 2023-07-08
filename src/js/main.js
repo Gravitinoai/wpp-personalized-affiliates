@@ -22,8 +22,8 @@ class TextProcessor {
     return this.modifiedText;
   }
 
-  togglePersonalization() {
-    this.isPersonalized = !this.isPersonalized;
+  togglePersonalization(isPersonalized) {
+    this.isPersonalized = isPersonalized;
     this.updateTextDisplay();
   }
 
@@ -61,22 +61,22 @@ class TextProcessor {
     });
     document.dispatchEvent(onOriginalTextObtained);
 
-    this.modifiedText = "aaaaaaaa";
-    let onModifiedTextObtained = new CustomEvent("onModifiedText", {
-        detail: this.modifiedText,
-    });
-    document.dispatchEvent(onModifiedTextObtained);
+    // this.modifiedText = "aaaaaaaa";
+    // let onModifiedTextObtained = new CustomEvent("onModifiedText", {
+    //     detail: this.modifiedText,
+    // });
+    // document.dispatchEvent(onModifiedTextObtained);
 
     // Once you have this method uncommented, make sure that it correctly handles setting modified_text
-    // promptModel(original_text, interests)
-    //     .then(response => {
-    //         console.log('Original paragraph:\n' + original_text + '\n\nPersonalized paragraph:\n' + response);
-    //         modified_text = response;
-    //         document.dispatchEvent(onModifiedTextObtained);
-    //     })
-    //     .catch(error => {
-    //         console.error(error);
-    //     });
+    promptModel(this.original_text, this.personalInterests)
+        .then(response => {
+            console.log('Original paragraph:\n' + original_text + '\n\nPersonalized paragraph:\n' + response);
+            modified_text = response;
+            document.dispatchEvent(onModifiedTextObtained);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
     this.updateTextDisplay();
 }
