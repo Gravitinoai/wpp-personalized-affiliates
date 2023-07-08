@@ -1,0 +1,7 @@
+{
+    "require": {
+        "google/cloud-ai-platform": "^0.20.0",
+        "vlucas/phpdotenv": "^5.5",
+        "guzzlehttp/guzzle": "^7.7"
+    }
+}
