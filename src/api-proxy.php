@@ -25,17 +25,6 @@ function handle_proxy_request() {
     $gcloud_project_id = $_ENV['GCLOUD_PROJECT_ID'];
     $keyFile = file_get_contents($path_to_gcloud_credential_json);
 
-
-    // ==================== LIST OF AFFILIATES ====================
-    $partners = get_option('paff_partners');
-    $partners_string = "";
-    foreach ($partners as $index => $partner) {
-        if ($partner!=""){
-            $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
-        }
-    }
-    error_log('partners: ' . print_r($partners_string, true));
-
     // ==================== GET THE REQUEST DATA ====================
     // Check if the session data is set
     if (!isset($_POST['prompt'])) {

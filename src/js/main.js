@@ -6,12 +6,14 @@ class TextProcessor {
     this.postCategory = postCategory.category_name;
     this.catViews = cat_views.views;
     this.viewId = viewID.view_id;
+    this.affiliate_partners = affiliatePartners.partners;
 
     console.log("Post id: " + this.postId);
     console.log("Post title: " + this.postTitle);
     console.log("Post category: " + this.postCategory);
     console.log("Post views: " + this.catViews);
     console.log("View id: " + this.viewId);
+    console.log("Affiliate partners: " + this.affiliate_partners);
 
     this.originalText = "";
     this.modifiedText = "";
@@ -74,8 +76,7 @@ class TextProcessor {
     });
     document.dispatchEvent(onOriginalTextObtained);
 
-    // Once you have this method uncommented, make sure that it correctly handles setting modified_text
-    promptModel(this.originalText, this.personalInterests)
+    promptModel(this.originalText, this.personalInterests, this.affiliate_partners)
     .then(response => {
         console.log('Original paragraph:\n' + this.originalText + '\n\nPersonalized paragraph:\n' + response);
         this.modifiedText = response;
