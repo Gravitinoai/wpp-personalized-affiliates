@@ -25,7 +25,8 @@
 }
 
 
-#debug-panel p {
+#debug-panel p,
+#debug-panel label {
     font-size: 0.6em; /* This is 50% of the parent's font-size */
     margin: 0em 0; /* This sets top and bottom margins to half of the current font-size and left and right margins to 0 */
     padding: 0em; /* This sets all paddings to half of the current font-size */

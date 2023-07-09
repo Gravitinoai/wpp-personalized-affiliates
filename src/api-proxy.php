@@ -1,9 +1,15 @@
 <?php
 // api-proxy.php
 
+require 'vendor/autoload.php';
+
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use Firebase\JWT\JWT;
+
 // Check if this file is called by WordPress. If not, exit.
 if (!defined('ABSPATH')) {
-    exit; 
+    exit;
 }
 
 // Add a new AJAX action
@@ -11,15 +17,13 @@ add_action('wp_ajax_proxy_request', 'handle_proxy_request');
 add_action('wp_ajax_nopriv_proxy_request', 'handle_proxy_request');
 
 function handle_proxy_request() {
-    // ==================== LIST OF AFFILIATES ====================
-    $partners = get_option('paff_partners');
-    $partners_string = "";
-    foreach ($partners as $index => $partner) {
-        if ($partner!=""){
-            $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
-        }
-    }
-    error_log('partners: ' . print_r($partners_string, true));
+    
+    // get local path to google cloud service account credentials json file 
+    // See https://developers.google.com/workspace/guides/create-credentials
+    $path_to_gcloud_credential_json = $_ENV['PATH_TO_GCLOUD_CREDENTIAL_JSON'];
+    // // get google cloud project id
+    $gcloud_project_id = $_ENV['GCLOUD_PROJECT_ID'];
+    $keyFile = file_get_contents($path_to_gcloud_credential_json);
 
     // ==================== GET THE REQUEST DATA ====================
     // Check if the session data is set
@@ -31,26 +35,38 @@ function handle_proxy_request() {
     // Get the session data from the client request
     $client_data = $_POST['prompt'];
 
-    // Your private API key
-    $api_key = get_option('paff_google_api_key');
-    if (!$api_key) {
-        echo json_encode(array('error' => 'No API key provided.'));
-        wp_die();
-    }
-
     // The API URL
-    $api_url = 'https://api.openai.com/v1/chat/completions';
+    $API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
+    $api_url = "https://{$API_ENDPOINT}/v1/projects/{$gcloud_project_id}/locations/us-central1/publishers/google/models/chat-bison@001:predict";
 
     // Array of data for the request
     $data = [
-        "model" => "gpt-3.5-turbo",
-        "messages" => [["role" => "user", "content" => $client_data]],
-        "temperature" => 0.7,
+        'instances' => [
+            [
+                'context' => '',
+                'examples' => [],
+                'messages' => [
+                    [
+                        'author' => 'user',
+                        'content' => $client_data,
+                    ],
+                ],
+            ],
+        ],
+        'parameters' => [
+            'temperature' => 0.7,
+            'maxOutputTokens' => 1024,
+            'topP' => 0.8,
+            'topK' => 40,
+        ],
     ];
+
+    // Get ID token for authentication
+    $id_token = getIdToken($keyFile);
 
     // Array of headers
     $headers = [
-        'Authorization' => 'Bearer ' . $api_key,
+        'Authorization' => 'Bearer ' . $id_token,
         'Content-Type' => 'application/json',
     ];
 
@@ -75,8 +91,8 @@ function handle_proxy_request() {
         $response_body = json_decode(wp_remote_retrieve_body($response), true);
 
         // Access the content
-        if(isset($response_body['choices'][0]['message']['content'])) {
-            $content = $response_body['choices'][0]['message']['content'];
+        if(isset($response_body['predictions'][0]['candidates'][0]['content'])) {
+            $content = $response_body['predictions'][0]['candidates'][0]['content'];
             echo json_encode(['content' => $content]);
         } else {
             echo json_encode(['error' => 'The key does not exist in the response.']);
@@ -85,3 +101,31 @@ function handle_proxy_request() {
 
     wp_die();
 }
+
+function getIdToken($keyFile)
+{
+    $keyData = json_decode($keyFile, true);
+    $payload = array(
+        "iss" => $keyData['client_email'],
+        "scope" => "https://www.googleapis.com/auth/cloud-platform",
+        "aud" => "https://www.googleapis.com/oauth2/v4/token",
+        "exp" => time() + 3600,
+        "iat" => time()
+    );
+
+    $jwt = JWT::encode($payload, $keyData['private_key'], 'RS256');
+
+    $client = new Client();
+    $response = $client->post('https://www.googleapis.com/oauth2/v4/token', [
+        'form_params' => [
+            'grant_type' => 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+            'assertion' => $jwt
+        ]
+    ]);
+
+    $data = json_decode($response->getBody(), true);
+
+    return $data['access_token'];
+}
+
+?>

@@ -6,6 +6,7 @@ class TextProcessor {
     this.postCategory = postCategory.category_name;
     this.catViews = cat_views.views;
     this.viewId = viewID.view_id;
+    this.affiliate_partners = affiliatePartners.partners;
 
     this.catViewsStr = Object.entries(this.catViews)
       .map(([key, value]) => `${key}: ${value}`)
@@ -78,30 +79,23 @@ class TextProcessor {
     });
     document.dispatchEvent(onOriginalTextObtained);
 
-    this.modifiedText = "aaaaaaaa";
-    let onModifiedTextObtained = new CustomEvent("onModifiedText", {
-        detail: this.modifiedText,
+    promptModel(this.originalText, this.personalInterests, this.affiliate_partners)
+    .then(response => {
+        console.log('Original paragraph:\n' + this.originalText + '\n\nPersonalized paragraph:\n' + response);
+        this.modifiedText = response;
+        
+        let onModifiedTextObtained = new CustomEvent("onModifiedText", {
+            detail: this.modifiedText,
+        });
+        document.dispatchEvent(onModifiedTextObtained);
+
+        this.updateTextDisplay(); // Make sure to update the display after modifying the text
+    })
+    .catch(error => {
+        console.error(error);
+        this.modifiedText = this.originalText;
     });
-    document.dispatchEvent(onModifiedTextObtained);
 
-    // // Once you have this method uncommented, make sure that it correctly handles setting modified_text
-    // promptModel(this.original_text, this.personalInterests)
-    //     .then(response => {
-    //         console.log('Original paragraph:\n' + original_text + '\n\nPersonalized paragraph:\n' + response);
-    //         modified_text = response;
-    //         document.dispatchEvent(onModifiedTextObtained);
-    //     })
-    //     .catch(error => {
-    //         console.error(error);
-    //         this.modifiedText = this.originalText;
-    //     });
-
-    this.updateTextDisplay();
-
-    let onContentLoaded = new CustomEvent("onContentLoaded", {
-        detail: this.view_id
-    });
-    document.dispatchEvent(onContentLoaded);
 }
 
   callModel(event) {
