@@ -1,0 +1,17 @@
+{
+    "name": "vlad/wpp-personalized-affiliates",
+    "require": {
+        "ramsey/uuid": "^4.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vlad\\WppPersonalizedAffiliates\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vlad Samoilov",
+            "email": "nicelir1996@gmail.com"
+        }
+    ]
+}

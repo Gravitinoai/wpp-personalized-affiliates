@@ -7,9 +7,9 @@ jQuery(document).ready(function($) {
     // Event handler for 'highlight-paff' checkbox
     $('#highlight-paff').change(function() {
         if (this.checked) {
-            $("p#paff").addClass("highlight");
+            $("p#paff:first").addClass("highlight");
         } else {
-            $("p#paff").removeClass("highlight");
+            $("p#paff:first").removeClass("highlight");
         }
     });
 
