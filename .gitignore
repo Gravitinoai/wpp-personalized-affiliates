@@ -6,3 +6,4 @@
 src/vendor
 .env
 
+src/index.php

@@ -61,25 +61,23 @@ class TextProcessor {
     });
     document.dispatchEvent(onOriginalTextObtained);
 
-    this.modifiedText = "aaaaaaaa";
-    let onModifiedTextObtained = new CustomEvent("onModifiedText", {
-        detail: this.modifiedText,
-    });
-    document.dispatchEvent(onModifiedTextObtained);
-
     // Once you have this method uncommented, make sure that it correctly handles setting modified_text
-    promptModel(this.original_text, this.personalInterests)
-        .then(response => {
-            console.log('Original paragraph:\n' + original_text + '\n\nPersonalized paragraph:\n' + response);
-            modified_text = response;
-            document.dispatchEvent(onModifiedTextObtained);
-        })
-        .catch(error => {
-            console.error(error);
-            this.modifiedText = this.originalText;
+    promptModel(this.originalText, this.personalInterests)
+    .then(response => {
+        console.log('Original paragraph:\n' + this.originalText + '\n\nPersonalized paragraph:\n' + response);
+        this.modifiedText = response;
+        
+        let onModifiedTextObtained = new CustomEvent("onModifiedText", {
+            detail: this.modifiedText,
         });
+        document.dispatchEvent(onModifiedTextObtained);
 
-    this.updateTextDisplay();
+        this.updateTextDisplay(); // Make sure to update the display after modifying the text
+    })
+    .catch(error => {
+        console.error(error);
+        this.modifiedText = this.originalText;
+    });
 }
 
   updateTextDisplay() {

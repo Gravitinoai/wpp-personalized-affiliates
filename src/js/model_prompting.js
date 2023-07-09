@@ -1,10 +1,10 @@
-const paragraphPersonalizationPrompt = (originalParagraph, interests, temperature=0.2) => {
-    const configuration_prompt = "You are an AI agent, that adapts content on the blog, based on the interests of a person. You are giving the topic and categories the person is interested in, the original content of the blog post. Using this info you need to adapt the content of the paragraph of a post so that it is more engaging to the person based on their interests. Make sure to preserve the original message, style and information of the post, while making the content more engaging for the reader."
-    const prompt = configuration_prompt + "\n\n[Personal Interests]" + interests + "\n\n[Original Paragraph]" + originalParagraph + "\n\n[Subtly personalized paragraph]"
+const paragraphPersonalizationPrompt = (originalParagraph, interests, temperature=0.7) => {
+    const configuration_prompt = "You are an AI agent, that adapts content on the blog, based on the interests of a person. You are giving the topic and categories the person is interested in, the original content of one paragraph of the blog post. Using this info you need to adapt the content of the paragraph of a post to try to sell a product based on one personal interest. Add an affiliate link to the product in the end of the paragraph."
+    const prompt = configuration_prompt + "\n\nPersonal Interests: " + interests + "\n\nOriginal Paragraph: " + originalParagraph + "\n\n[Subtly personalized paragraph]"
     return prompt;
 }
 
-const promptModel = (originalParagraph, interests, temperature=0.2) => {
+const promptModel = (originalParagraph, interests, temperature=0.7) => {
     const prompt = paragraphPersonalizationPrompt(originalParagraph, interests, temperature);
 
     // Load the jQuery library if it's not already loaded
@@ -27,7 +27,7 @@ const promptModel = (originalParagraph, interests, temperature=0.2) => {
                 (response) => {
                     // Parse the response as JSON
                     let res = JSON.parse(response);
-                
+
                     // Check if an error occurred
                     if ('error' in res) {
                         // Handle the error
