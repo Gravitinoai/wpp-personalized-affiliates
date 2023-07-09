@@ -20,10 +20,11 @@ function handle_proxy_request() {
     
     // get local path to google cloud service account credentials json file 
     // See https://developers.google.com/workspace/guides/create-credentials
-    $path_to_gcloud_credential_json = $_ENV['PATH_TO_GCLOUD_CREDENTIAL_JSON'];
     // // get google cloud project id
-    $gcloud_project_id = $_ENV['GCLOUD_PROJECT_ID'];
-    $keyFile = file_get_contents($path_to_gcloud_credential_json);
+    $gcloud_project_id = get_option("google_project_id");
+    $keyFile = get_option('paff_api_key');
+    error_log("keyFile: " . $keyFile);
+    error_log("gcloud_project_id: " . $gcloud_project_id);
 
     // ==================== GET THE REQUEST DATA ====================
     // Check if the session data is set

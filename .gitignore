@@ -6,3 +6,4 @@
 src/vendor
 src/index.php
 /vendor/
+api_key.json

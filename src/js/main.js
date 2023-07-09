@@ -88,9 +88,14 @@ class TextProcessor {
         detail: this.modifiedText,
     });
     document.dispatchEvent(onModifiedTextObtained);
+
+    this.callModel();
 }
 
-  callModel(event) {
+  callModel(event=null) {
+    console.log("Calling model");
+    console.log(this.interestsFull);
+    console.log(this.originalText);
     if (this.interestsFull=="" || this.originalText=="") {
       return;
     }
