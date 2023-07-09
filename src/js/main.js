@@ -1,9 +1,18 @@
 //main.js
-console.log('Post category: ' + postCategory);
-console.log('Cat count: ', cat_views);
-
 class TextProcessor {
   constructor() {
+    this.postId = postID.post_id;
+    this.postTitle = postTitle.post_title;
+    this.postCategory = postCategory.category_name;
+    this.catViews = cat_views.views;
+    this.viewId = viewID.view_id;
+
+    console.log("Post id: " + this.postId);
+    console.log("Post title: " + this.postTitle);
+    console.log("Post category: " + this.postCategory);
+    console.log("Post views: " + this.catViews);
+    console.log("View id: " + this.viewId);
+
     this.originalText = "";
     this.modifiedText = "";
     this.isPersonalized = false;
@@ -20,6 +29,10 @@ class TextProcessor {
 
   getModifiedText() {
     return this.modifiedText;
+  }
+
+  getPersonalInterests() {
+    return this.personalInterests;
   }
 
   togglePersonalization(isPersonalized) {
@@ -39,7 +52,7 @@ class TextProcessor {
 
   async handleDomContentLoaded(event) {
     const googleTopics = await getGoogleTopics();
-    const catViewsStr = Object.entries(cat_views)
+    const catViewsStr = Object.entries(this.catViews)
         .map(([key, value]) => `${key}: ${value}`)
         .join(", ");
     const topicsElement = document.createElement("p");
@@ -78,11 +91,16 @@ class TextProcessor {
         console.error(error);
         this.modifiedText = this.originalText;
     });
+
 }
 
   updateTextDisplay() {
     const paffBlock = document.getElementById("paff");
     paffBlock.innerHTML = this.isPersonalized ? this.modifiedText : this.originalText;
+    let onTextChanged = new CustomEvent("onTextChanged", {
+        detail: this.isPersonalized ? this.modifiedText : this.originalText,
+    });
+    document.dispatchEvent(onTextChanged);
   }
 }
 

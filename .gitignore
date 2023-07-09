@@ -4,6 +4,5 @@
 *.7z
 .DS_Store
 src/vendor
-.env
-
 src/index.php
+/vendor/

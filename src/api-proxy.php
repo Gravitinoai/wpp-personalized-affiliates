@@ -110,7 +110,6 @@ function handle_proxy_request() {
         }
     }
 
-    // Always end your AJAX functions with wp_die()
     wp_die();
 }
 
