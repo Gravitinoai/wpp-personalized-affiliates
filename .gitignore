@@ -4,5 +4,5 @@
 *.7z
 .DS_Store
 src/vendor
-
+src/index.php
 /vendor/

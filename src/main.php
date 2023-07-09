@@ -48,6 +48,19 @@ class PAFF_Plugin {
     }
 
     public function process_post() {
+        // ==================== LIST OF AFFILIATES ====================
+        // $partners = get_option('paff_partners');
+        $partners = get_option('paff_partners', ['']);
+        $partners_string = "";
+        foreach ($partners as $index => $partner) {
+            if ($partner!=""){
+                $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
+            }
+        }
+
+        $logFile = '/home/vladi315/Desktop/del/log.txt'; // Replace with the actual path to your log file
+        file_put_contents($logFile, "new: " . $partners_string, FILE_APPEND);
+
         // ==================== SESSION ====================
         // ==================== SESSION ====================
         $post_id = get_the_ID();
@@ -80,6 +93,7 @@ class PAFF_Plugin {
         wp_localize_script('main-js', 'postTitle', ['post_title' => $post_title]);
         wp_localize_script('main-js', 'viewID', ['view_id' => $uuid]);
         wp_localize_script('main-js', 'cat_views', ['views' => $_SESSION['category_views']]);
+        wp_localize_script('main-js', 'affiliatePartners', ['partners' => $partners_string]);
 
 
         // ==================== DEBUG PANEL ====================

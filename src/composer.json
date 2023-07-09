@@ -1,6 +1,9 @@
 {
     "name": "vlad/wpp-personalized-affiliates",
     "require": {
+        "google/cloud-ai-platform": "^0.20.0",
+        "vlucas/phpdotenv": "^5.5",
+        "guzzlehttp/guzzle": "^7.7",
         "ramsey/uuid": "^4.7"
     },
     "autoload": {
@@ -12,6 +15,10 @@
         {
             "name": "Vlad Samoilov",
             "email": "nicelir1996@gmail.com"
+        },
+        {
+            "name": "Vladislav Klass",
+            "email": "vladislav.klass@gmail.com"
         }
     ]
 }
