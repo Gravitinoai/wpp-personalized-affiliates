@@ -25,6 +25,10 @@ jq(document).ready(function($) {
         let selectedInterests = $(this).val(); // Returns an array of the selected option values
         textProcessor.setPersonalInterests(selectedInterests.map(id => taxonomy[id]));
     });
+
+    jq(document).on('click', '#randomize-interests', function(e) {
+        randomizeInterests();
+    });
 });
 
 // Function to populate the interests dropdown from taxonomy
@@ -36,6 +40,14 @@ function populateInterests() {
         option.text = simple_taxonomy[key];
         interestsSelect.appendChild(option);
     }
+}
+
+function randomizeInterests(){
+    const runAsync = async () => {
+        await textProcessor.setRandomInterests();
+    }
+
+    runAsync();
 }
 
 document.addEventListener('onInterestsChanged', function(e) {

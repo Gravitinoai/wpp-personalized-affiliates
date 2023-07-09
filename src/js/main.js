@@ -11,12 +11,6 @@ class TextProcessor {
       .map(([key, value]) => `${key}: ${value}`)
       .join(", ");
 
-    console.log("Post id: " + this.postId);
-    console.log("Post title: " + this.postTitle);
-    console.log("Post category: " + this.postCategory);
-    console.log("Post views: " + this.catViewsStr);
-    console.log("View id: " + this.viewId);
-
     this.originalText = "";
     this.modifiedText = "";
     this.isPersonalized = false;
@@ -56,8 +50,12 @@ class TextProcessor {
     this.updateTextDisplay();
   }
 
+  async setRandomInterests(){
+    const googleTopics = await getGoogleTopics();
+    this.setPersonalInterests(googleTopics);
+  }
+
   setPersonalInterests(interests) {
-    console.log("Interests: " + interests);
     this.personalInterests = interests;
     this.interestsFull = "Personal intersts:\n\n" +
       interests.join(", ") +
@@ -71,9 +69,7 @@ class TextProcessor {
 }
 
   async handleDomContentLoaded(event) {
-    const googleTopics = await getGoogleTopics();
-    this.setPersonalInterests(googleTopics);
-
+    await this.setRandomInterests();
     const paffBlock = document.getElementById("paff");
     this.originalText = paffBlock.innerHTML;
 
