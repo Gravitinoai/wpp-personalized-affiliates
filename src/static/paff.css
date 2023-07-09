@@ -29,3 +29,8 @@
 .highlight {
     background-color: lime;
 }
+
+#user-interests-selector {
+    width: 100%;
+    height: 100px;
+}

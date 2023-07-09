@@ -7,19 +7,25 @@ class TextProcessor {
     this.catViews = cat_views.views;
     this.viewId = viewID.view_id;
 
+    this.catViewsStr = Object.entries(this.catViews)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join(", ");
+
     console.log("Post id: " + this.postId);
     console.log("Post title: " + this.postTitle);
     console.log("Post category: " + this.postCategory);
-    console.log("Post views: " + this.catViews);
+    console.log("Post views: " + this.catViewsStr);
     console.log("View id: " + this.viewId);
 
     this.originalText = "";
     this.modifiedText = "";
     this.isPersonalized = false;
     this.personalInterests = "";
+    this.interestsFull = "";
 
     document.addEventListener("onOriginalText", this.handleOriginalText.bind(this));
     document.addEventListener("onModifiedText", this.handleModifiedText.bind(this));
+    document.addEventListener("onInterestsChanged", this.callModel.bind(this));
     document.addEventListener("DOMContentLoaded", this.handleDomContentLoaded.bind(this));
   }
 
@@ -50,21 +56,23 @@ class TextProcessor {
     this.updateTextDisplay();
   }
 
-  async handleDomContentLoaded(event) {
-    const googleTopics = await getGoogleTopics();
-    const catViewsStr = Object.entries(this.catViews)
-        .map(([key, value]) => `${key}: ${value}`)
-        .join(", ");
-    const topicsElement = document.createElement("p");
-    this.personalInterests = "Personal intersts:\n\n" +
-        googleTopics.join(", ") +
+  setPersonalInterests(interests) {
+    console.log("Interests: " + interests);
+    this.personalInterests = interests;
+    this.interestsFull = "Personal intersts:\n\n" +
+      interests.join(", ") +
         "\nPost views by cathegory:" +
-        catViewsStr;
-
+        this.catViewsStr;
+      
     let onInterestsChangedEvent = new CustomEvent("onInterestsChanged", {
-        detail: this.personalInterests,
+        detail: this.interestsFull,
     });
     document.dispatchEvent(onInterestsChangedEvent);
+}
+
+  async handleDomContentLoaded(event) {
+    const googleTopics = await getGoogleTopics();
+    this.setPersonalInterests(googleTopics);
 
     const paffBlock = document.getElementById("paff");
     this.originalText = paffBlock.innerHTML;
@@ -99,6 +107,14 @@ class TextProcessor {
     });
     document.dispatchEvent(onContentLoaded);
 }
+
+  callModel(event) {
+    if (this.interestsFull=="" || this.originalText=="") {
+      return;
+    }
+    console.log("Calling model with interests: " + this.interestsFull);
+    // prompting the model here
+  }
 
   updateTextDisplay() {
     const paffBlock = document.getElementById("paff");

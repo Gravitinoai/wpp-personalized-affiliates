@@ -1,15 +1,18 @@
 <div id="debug-panel">
     <!-- header: "Debug panel" in the center and bold -->
     <div style="text-align: center;">
-        <h1>Debug panel</h1>
-        <p>(Can be disabled in plugin settings)</p>
+        <h1>Demonstration panel</h1>
+        <p>(Only for demonstration purposes! Disable in the settings for production.)</p>
     </div>
     <h2>Personal interests:</h2>
+    <p>
+    <a href="https://blog.google/products/chrome/get-know-new-topics-api-privacy-sandbox/" id="clear-personal-interests">Learn more about Google Topic API</a>
+    </p>
+    <select id="user-interests-selector" multiple>
+        <!-- Options will be populated from taxonomy.js -->
+    </select>
     <p id="personal-interests"></p>
     <h2>Toggling:</h2>
-    <!-- <button id="highlight-paff">Highlight PAFF paragraph</button>
-    <button id="toggle-personalization">Toggle PAFF</button> -->
-    <!-- add check boxes instead -->
     <div>
         <!-- Highlight is off by default -->
         <input type="checkbox" id="highlight-paff">
