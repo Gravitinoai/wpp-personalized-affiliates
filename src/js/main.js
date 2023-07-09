@@ -72,14 +72,30 @@ class TextProcessor {
   async handleDomContentLoaded(event) {
     await this.setRandomInterests();
     const paffBlock = document.getElementById("paff");
+    if (paffBlock === null) {
+        return;
+    }
+
     this.originalText = paffBlock.innerHTML;
+    this.modifiedText = this.originalText;
 
     let onOriginalTextObtained = new CustomEvent("onOriginalText", {
         detail: this.originalText,
     });
     document.dispatchEvent(onOriginalTextObtained);
+        
+    let onModifiedTextObtained = new CustomEvent("onModifiedText", {
+        detail: this.modifiedText,
+    });
+    document.dispatchEvent(onModifiedTextObtained);
+}
 
-    promptModel(this.originalText, this.personalInterests, this.affiliate_partners)
+  callModel(event) {
+    if (this.interestsFull=="" || this.originalText=="") {
+      return;
+    }
+
+    promptModel(this.originalText, this.interestsFull, this.affiliate_partners)
     .then(response => {
         console.log('Original paragraph:\n' + this.originalText + '\n\nPersonalized paragraph:\n' + response);
         this.modifiedText = response;
@@ -95,15 +111,6 @@ class TextProcessor {
         console.error(error);
         this.modifiedText = this.originalText;
     });
-
-}
-
-  callModel(event) {
-    if (this.interestsFull=="" || this.originalText=="") {
-      return;
-    }
-    console.log("Calling model with interests: " + this.interestsFull);
-    // prompting the model here
   }
 
   updateTextDisplay() {

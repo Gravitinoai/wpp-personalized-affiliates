@@ -34,10 +34,20 @@
 
 
 .highlight {
-    background-color: lime;
+    background-color: #90f39085;
 }
 
 #user-interests-selector {
     width: 100%;
     height: 100px;
+}
+
+#debug-panel hr {
+    margin: 0.1em 0.1em;
+}
+
+#debug-panel button {
+    font-size: 0.6em;
+    margin: 0.2em 0.12m;
+    padding: 0.2em 0.2em;
 }

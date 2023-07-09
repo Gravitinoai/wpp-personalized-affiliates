@@ -58,9 +58,6 @@ class PAFF_Plugin {
             }
         }
 
-        $logFile = '/home/vladi315/Desktop/del/log.txt'; // Replace with the actual path to your log file
-        file_put_contents($logFile, "new: " . $partners_string, FILE_APPEND);
-
         // ==================== SESSION ====================
         // ==================== SESSION ====================
         $post_id = get_the_ID();
