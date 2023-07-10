@@ -58,9 +58,9 @@ class TextProcessor {
 
   setPersonalInterests(interests) {
     this.personalInterests = interests;
-    this.interestsFull = "Personal intersts:\n\n" +
+    this.interestsFull = "Personal interests:\n\n" +
       interests.join(", ") +
-        "\nPost views by cathegory:" +
+        "\nPost views by category:" +
         this.catViewsStr;
       
     let onInterestsChangedEvent = new CustomEvent("onInterestsChanged", {
