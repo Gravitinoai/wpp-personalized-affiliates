@@ -56,7 +56,7 @@ document.addEventListener('onInterestsChanged', function(e) {
 
 function setPersonalInterests(interests) {
     let personalInterests = document.getElementById('personal-interests');
-    personalInterests.innerHTML = textProcessor.interestsFull;
+    personalInterests.innerHTML = 'Personal interests:<br>' + textProcessor.personalInterests + '<br>' + 'Post views by category:<br>' + textProcessor.catViewsStr;
 }
 
 /// Use the beforeunload event to remove the listener when the user is about to leave the page.

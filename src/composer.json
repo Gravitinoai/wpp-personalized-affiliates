@@ -1,10 +1,11 @@
 {
     "name": "vlad/wpp-personalized-affiliates",
     "require": {
+        "php": "^7.4",
         "google/cloud-ai-platform": "^0.20.0",
         "vlucas/phpdotenv": "^5.5",
         "guzzlehttp/guzzle": "^7.7",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.1"
     },
     "autoload": {
         "psr-4": {
@@ -20,5 +21,10 @@
             "name": "Vladislav Klass",
             "email": "vladislav.klass@gmail.com"
         }
-    ]
+    ],
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    }
 }

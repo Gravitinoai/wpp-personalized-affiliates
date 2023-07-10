@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Content personalization
-Description: A plugin to log the category of a post, its content blocks, and send it to a specific API.
+Plugin Name: Affiliates Personalization
+Description: A plugin to naturally embed affiliate links into your content based on user interests.
 Version: 1.0
-Author: Your Name
-Author URI: Your Website
+Author: Vladislav Samoilov, Vladislav Klass
+Author URI: http://vladislavs2.sg-host.com/
 */
 
 require 'vendor/autoload.php';
@@ -57,9 +57,6 @@ class PAFF_Plugin {
                 $partners_string .= "===Partner" . ($index + 1) . ":===\n" . $partner . "\n\n";
             }
         }
-
-        $logFile = '/home/vladi315/Desktop/del/log.txt'; // Replace with the actual path to your log file
-        file_put_contents($logFile, "new: " . $partners_string, FILE_APPEND);
 
         // ==================== SESSION ====================
         // ==================== SESSION ====================
